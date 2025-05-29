@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h1>🛡️ <span class="glow">Админ-панель</span></h1>
+  <form method="post" action="/admin/session/new">
+    <button type="submit" class="btn">Создать новую сессию</button>
+  </form>
+  <h2>Сессии</h2>
+  <ul>
+    {% for sess in sessions %}
+      <li style="display: flex; align-items: center; gap: 0.5em; flex-wrap: wrap;">
+        <span class="quiz-title">Сессия: {{ sess.session_code }}</span>
+        <a href="{{ url_for('client_quiz', session_code=sess.session_code) }}" target="_blank">[Ссылка для участников]</a>
+        <a href="{{ url_for('admin_session_qrcode', session_code=sess.session_code) }}">[QR]</a>
+        <a href="{{ url_for('admin_session_rating', session_code=sess.session_code) }}">[Рейтинг]</a>
+        <form method="post" action="{{ url_for('admin_session_delete', session_code=sess.session_code) }}" style="display:inline; margin:0;">
+          <button type="submit" class="btn" style="background:#a00;color:#fff;border-color:#a00;">Удалить</button>
+        </form>
+      </li>
+    {% else %}
+      <li>Нет активных сессий</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %} 

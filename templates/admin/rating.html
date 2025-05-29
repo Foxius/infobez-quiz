@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+  <h2>Рейтинг участников</h2>
+  <table class="rating-table" id="rating-table">
+    <tr><th>Ник</th><th>Баллы</th></tr>
+    {% for user in users %}
+      <tr>
+        <td>{{ user.nickname }}</td>
+        <td>{{ user.score }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+  <!-- <a href="/admin" class="btn">Назад</a> -->
+</div>
+<script>
+  function updateRating() {
+    fetch(window.location.pathname + '/json')
+      .then(r => r.json())
+      .then(data => {
+        let rows = '<tr><th>Ник</th><th>Баллы</th></tr>';
+        for (const user of data) {
+          rows += `<tr><td>${user.nickname}</td><td>${user.score}</td></tr>`;
+        }
+        document.getElementById('rating-table').innerHTML = rows;
+      });
+  }
+  setInterval(updateRating, 2000);
+</script>
+{% endblock %} 
