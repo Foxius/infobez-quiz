@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container center">
-  <h2>QR-код для квиза #{{ quiz_id }}</h2>
+  <h2>QR-код для квиза</h2>
   <img src="data:image/png;base64,{{ img_b64 }}" alt="QR Code" class="qr-glow"/>
   <p><a href="{{ url }}" class="glow">{{ url }}</a></p>
   <a href="/admin" class="btn">Назад</a>
