@@ -3,6 +3,7 @@
 <div class="container center">
   <h2>Введи никнейм</h2>
   <form method="post">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
     <input type="text" name="nickname" placeholder="Твой ник" required class="input-glow"/>
     <button type="submit" class="btn">Старт</button>
   </form>

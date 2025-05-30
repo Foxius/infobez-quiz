@@ -14,13 +14,22 @@
   <!-- <a href="/admin" class="btn">Назад</a> -->
 </div>
 <script>
+  function escapeHtml(unsafe) {
+    return unsafe
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
   function updateRating() {
     fetch(window.location.pathname + '/json')
       .then(r => r.json())
       .then(data => {
         let rows = '<tr><th>Ник</th><th>Баллы</th></tr>';
         for (const user of data) {
-          rows += `<tr><td>${user.nickname}</td><td>${user.score}</td></tr>`;
+          rows += `<tr><td>${escapeHtml(user.nickname)}</td><td>${user.score}</td></tr>`;
         }
         document.getElementById('rating-table').innerHTML = rows;
       });
