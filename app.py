@@ -11,7 +11,11 @@ import dotenv
 
 dotenv.load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, 
+    # static_url_path='/static',
+    static_folder='static',
+    template_folder='templates'
+)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///quiz.db'
 app.config['UPLOAD_FOLDER'] = 'static/images'
@@ -217,4 +221,4 @@ def client_quiz_result(session_code, user_id):
     return render_template('client/result.html', session=user)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True) 
+    app.run(host='0.0.0.0', port=8080, debug=False) 

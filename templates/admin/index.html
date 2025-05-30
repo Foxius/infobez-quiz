@@ -13,9 +13,7 @@
         <a href="{{ url_for('client_quiz', session_code=sess.session_code) }}" target="_blank">[Ссылка для участников]</a>
         <a href="{{ url_for('admin_session_qrcode', session_code=sess.session_code) }}">[QR]</a>
         <a href="{{ url_for('admin_session_rating', session_code=sess.session_code) }}">[Рейтинг]</a>
-        <form method="post" action="{{ url_for('admin_session_delete', session_code=sess.session_code) }}" style="display:inline; margin:0;">
-          <button type="submit" class="btn" style="background:#a00;color:#fff;border-color:#a00;">Удалить</button>
-        </form>
+        <a href="{{ url_for('admin_session_delete', session_code=sess.session_code) }}">[Удалить]</a>
       </li>
     {% else %}
       <li>Нет активных сессий</li>
