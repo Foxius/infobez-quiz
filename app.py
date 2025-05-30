@@ -206,12 +206,15 @@ def client_quiz_questions(session_code, qn):
     if request.method == 'POST':
         selected = int(request.form['option'])
         user_id = session.get('user_id')
+        user = db.session.get(User, user_id)
         is_correct = (selected == question.correct_option)
         ans = UserAnswer(user_id=user_id, question_id=question.id, selected_option=selected, is_correct=is_correct)
         db.session.add(ans)
+        if is_correct:
+            user.score += 1
         db.session.commit()
         return redirect(url_for('client_quiz_questions', session_code=session_code, qn=qn+1))
-    return render_template('client/question.html', quiz=quiz, question=question, options=options, qn=qn, total=len(questions))
+    return render_template('client/question.html', quiz=quiz, question=question, options=options, qn=qn, total=len(questions), session_code=session_code)
 
 @app.route('/quiz/<session_code>/result/<int:user_id>')
 def client_quiz_result(session_code, user_id):
@@ -219,6 +222,13 @@ def client_quiz_result(session_code, user_id):
     if not user:
         abort(404)
     return render_template('client/result.html', session=user)
+
+@app.route('/quiz/<session_code>/rating/json')
+def client_quiz_rating_json(session_code):
+    sess = QuizSession.query.filter_by(session_code=session_code).first_or_404()
+    users = User.query.filter_by(quiz_session_id=sess.id).order_by(User.score.desc()).all()
+    data = [{"nickname": u.nickname, "score": u.score} for u in users]
+    return data
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=False) 
