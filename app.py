@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash, session, send_from_directory, abort, Response
 from flask_sqlalchemy import SQLAlchemy
+from flask_wtf.csrf import CSRFProtect
 import qrcode
 from io import BytesIO
 from base64 import b64encode
@@ -24,6 +25,7 @@ app.config['SESSION_COOKIE_HTTPONLY'] = True
 app.config['WTF_CSRF_ENABLED'] = True
 app.config['WTF_CSRF_SECRET_KEY'] = os.getenv('SECRET_KEY')
 db = SQLAlchemy(app)
+csrf = CSRFProtect(app)
 
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD')
 

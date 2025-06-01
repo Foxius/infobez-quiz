@@ -8,6 +8,7 @@
       <img src="{{ question.image_url }}" alt="Картинка" class="question-img"/>
     {% endif %}
     <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
       {% for opt in options %}
         <div class="option-glow">
           <input type="radio" name="option" value="{{ opt.id }}" required id="opt{{ opt.id }}"/>
